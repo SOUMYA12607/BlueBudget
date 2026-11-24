@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueBudget | Smart Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">B</span><span>BlueBudget</span></div>
+      <p class="side-caption">PERSONAL FINANCE</p>
+      <nav>
+        <a class="nav-link active" href="#dashboard">Overview</a>
+        <a class="nav-link" href="#add-transaction">Add Transaction</a>
+        <a class="nav-link" href="#budget">Monthly Budget</a>
+        <a class="nav-link" href="#transactions">Transactions</a>
+        <a class="nav-link" href="#analytics">Analytics</a>
+        <a class="nav-link" href="#monthly-report">Monthly Report</a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-dot"></span>
+        <div><strong>Small steps matter.</strong><p>Build better money habits, one day at a time.</p></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow">YOUR MONEY, MADE CLEAR</p><h1>Dashboard</h1></div>
+        <div class="today-chip">Today <strong id="todayDate"></strong></div>
+      </header>
+
+      <section id="dashboard" class="section">
+        <div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Financial overview</h2></div></div>
+        <div class="summary-grid">
+          <article class="summary-card balance-card"><span class="card-label">Total balance</span><strong id="totalBalance">₹0.00</strong><span class="card-foot">Lifetime balance</span></article>
+          <article class="summary-card"><span class="card-label">This month's income</span><strong id="totalIncome" class="income-text">₹0.00</strong><span class="card-foot">Money received</span></article>
+          <article class="summary-card"><span class="card-label">This month's expenses</span><strong id="totalExpense" class="expense-text">₹0.00</strong><span class="card-foot">Money spent</span></article>
+        </div>
+      </section>
+
+      <section id="add-transaction" class="panel section">
+        <div class="panel-heading"><div><p class="eyebrow">KEEP IT UPDATED</p><h2>Add a transaction</h2></div><span class="panel-icon">＋</span></div>
+        <form id="transactionForm">
+          <div class="form-grid">
+            <label class="field wide">Description<input id="description" type="text" placeholder="e.g. Groceries" maxlength="70" required></label>
+            <label class="field">Amount (₹)<input id="amount" type="number" min="0.01" max="100000000" step="0.01" placeholder="0.00" required></label>
+            <label class="field">Type<select id="type"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+            <label class="field">Category<select id="category">
+              <option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Education</option><option>Health</option><option>Entertainment</option><option>Salary</option><option>Freelance</option><option>Other</option>
+            </select></label>
+            <label class="field">Date<input id="date" type="date" required></label>
+          </div>
+          <div class="form-actions"><button id="submitBtn" class="primary-btn" type="submit">＋ Add Transaction</button><button id="cancelEditBtn" class="secondary-btn hidden" type="button">Cancel edit</button></div>
+        </form>
+      </section>
+
+      <section id="budget" class="panel section">
+        <div class="panel-heading"><div><p class="eyebrow">SPEND WITH A PLAN</p><h2>Monthly budget</h2></div><span class="panel-icon">◎</span></div>
+        <div class="budget-top"><div><span class="muted">Your monthly limit</span><strong id="budgetAmount">₹10,000.00</strong></div><div class="budget-edit"><input id="budgetInput" type="number" min="1" placeholder="New limit"><button id="setBudgetBtn" class="secondary-btn">Set budget</button></div></div>
+        <div class="budget-stats"><span>Spent <strong id="budgetSpent">₹0.00</strong></span><strong id="budgetPercentage">0% used</strong></div>
+        <div class="progress-track"><div id="budgetProgress" class="progress-fill"></div></div>
+        <p id="budgetRemaining" class="muted">₹10,000.00 remaining</p>
+        <p id="budgetMessage" class="budget-message">You're doing great! Keep tracking your expenses.</p>
+      </section>
+
+      <section id="transactions" class="panel section">
+        <div class="panel-heading"><div><p class="eyebrow">YOUR ACTIVITY</p><h2>Recent transactions</h2></div></div>
+        <div class="filters">
+          <input id="searchInput" type="search" placeholder="Search description or category">
+          <select id="filterType"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expense</option></select>
+          <select id="filterMonth"><option value="all">All months</option></select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Description</th><th>Category</th><th>Date</th><th>Type</th><th>Amount</th><th>Action</th></tr></thead><tbody id="transactionList"></tbody></table></div>
+      </section>
+
+      <section id="analytics" class="section">
+        <div class="section-heading"><div><p class="eyebrow">UNDERSTAND YOUR HABITS</p><h2>Spending analytics</h2></div></div>
+        <div class="analytics-grid">
+          <article class="panel chart-panel"><h3>Expenses over the last 6 months</h3><div id="monthlyChart" class="bar-chart"></div></article>
+          <article class="panel chart-panel"><h3>This month's category breakdown</h3><div id="categoryChart" class="category-chart"></div></article>
+        </div>
+      </section>
+
+      <section id="monthly-report" class="panel section report-panel">
+        <div class="panel-heading"><div><p class="eyebrow">YOUR MONTHLY MONEY SUMMARY</p><h2>Download monthly report</h2><p class="muted">Choose a month to create a printable report with totals and every transaction.</p></div><span class="panel-icon">↓</span></div>
+        <div class="report-controls"><label class="field">Select month<input type="month" id="reportMonth"></label><button id="downloadReportBtn" class="primary-btn" type="button">Download report as PDF</button></div>
+        <p class="report-hint">A print window will open. Choose <strong>Save as PDF</strong> as the destination.</p>
+      </section>
+
+      <footer>BlueBudget <span>·</span> Take control of your finances.</footer>
+    </main>
+  </div>
+</body>
+</html>
